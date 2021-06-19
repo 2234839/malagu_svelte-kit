@@ -1,0 +1,26 @@
+targets:
+  - backend
+
+malagu:
+  serve-static:
+    spa: false
+    root: .malagu/frontend
+
+  faas-adapter:
+    # type: http
+    customDomain:
+      name: malagusveltekit.shenzilong.cn
+    #   protocol: HTTP,HTTPS
+    #   certConfig:
+    #     certName: cert-5367289 # 自行部署的时候这里也要改成你自己阿里云的免费SSL证书名
+    service:
+      name: malagu
+    # function:
+    #   runtime: custom
+    #   memorySize: 192
+    #   timeout: 20
+    #   instanceConcurrency: 1
+
+  web:
+    cors:
+      origin: true
