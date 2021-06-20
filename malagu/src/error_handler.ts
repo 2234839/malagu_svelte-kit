@@ -2,6 +2,7 @@ import { Component } from '@malagu/core';
 import { ErrorHandler,HTTP_ERROR_HANDlER_PRIORITY,Context,HttpError } from '@malagu/web/lib/node';
 
 const list:unknown[] = []
+// 调试用
 if(1){
     const rawLog = console.log.bind(console)
     console.log = (...arg)=>{
