@@ -11,19 +11,7 @@ global.Response = Response;
 global.Request = Request;
 global.Headers = Headers;
 
-// ../../frontend/app.js
 export const app = require("../.malagu/frontend/index.js")
-const assetsPath = "../.malagu/frontend/_app/assets"
-
-app.init({
-    paths: {
-        base: '',
-        assets: '/.'
-    },
-    prerendering: false,
-    read: (file:string) => readFileSync(join(__dirname, assetsPath,file))
-});
-
 
 @Component(Middleware)
 export class SvelteKitMiddleware implements Middleware {
@@ -36,49 +24,33 @@ export class SvelteKitMiddleware implements Middleware {
 			method=String(ctx.request.query["_method"]).toUpperCase()
         }
 		const path = decodeURIComponent(ctx.request.originalUrl.split("?")[0])
-		console.time("svelte handle")
-        const res = await app.render({
-            host: /** @type {string} */ "192.0.0.1",
+
+		const res = await app.render({
+            host: "192.0.0.1",
             method,
-            headers: /** @type {import('types/helper').Headers} */ (ctx.request.headers),
+            headers: ctx.request.headers,
             path: path==="/index.html" ? "/" : path,
             query: new URLSearchParams(""|| ''),
             rawBody: rawBody
         })
-        console.log('[res]',path,res.status,ctx.request.query,method)
-
-		console.timeEnd("svelte handle")
 
         if(res.status === 404) {
             await next()
-			if(Context.getCurrent() === undefined){
-				await next()
-				const response = ctx.response;
-				if (!Context.isSkipAutoEnd() && !response.writableEnded) {
-					response.end(response.body + "错误");
-				}
-				console.log("错误");
-
-				return
-			}
 			const response = ctx.response;
 			if (!Context.isSkipAutoEnd() && !response.writableEnded) {
 				response.end(response.body);
 			}
         }else{
 			const response = ctx.response;
-            response.body = res.body
 
-
-            ctx.response.status(res.status)
-			Object.entries(res.headers).forEach(([key,value])=>ctx.response.setHeader(key,value))
+			response.body = res.body
+            response.status(res.status)
+			Object.entries(res.headers).forEach(([key,value])=>response.setHeader(key, String(value)))
 
 			if (!Context.isSkipAutoEnd() && !response.writableEnded) {
 				response.end(response.body);
 			}
-			// await next()
         }
-        // ctx.response.
     }
 
     readonly priority = HTTP_MIDDLEWARE_PRIORITY;
@@ -134,7 +106,7 @@ export class SvelteKitMiddleware implements Middleware {
 		}
 
 		req.on('end', () => {
-			const [type] = h['content-type'].split(/;\s*/);
+			const [type] = h['content-type']?.split(/;\s*/) || [];
 			if (type === 'application/octet-stream') {
 				return fulfil(data);
 			}
