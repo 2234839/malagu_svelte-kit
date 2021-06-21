@@ -10,16 +10,20 @@
     "src"
   ],
   "dependencies": {
-    "@malagu/fc-adapter": "^1.23.3",
+    "@malagu/core": "latest",
+    "@malagu/fc-adapter": "latest",
+    "@malagu/web": "latest",
     "@malagu/mvc": "latest",
-    "@malagu/serve-static": "^1.23.3",
+    "@malagu/serve-static": "latest",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
-    "@lukeed/uuid": "^2.0.0",
     "@malagu/cli": "latest",
     "@malagu/cli-service": "latest",
+
     "@sveltejs/kit": "^1.0.0-next.1",
+    "@lukeed/uuid": "^2.0.0",
+    "cookie": "^0.4.1",
     "svelte": "^3.38.2"
   },
   "scripts": {

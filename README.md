@@ -4,6 +4,21 @@
 
 使用 malagu 适配云平台来运行 svelteKit 的 ssr 示例项目 https://github.com/2234839/malagu_svelte-kit
 
+## 启动
+
+使用 npm 或 yarn 应该也可以正常启动
+
+```bash
+cd ./svelte-kit
+pnpm i
+pnpm run build
+
+cd ../malagu/
+pnpm i
+pnpm run start
+
+```
+
 ## 原理
 
 1. 在 <./svelte-kit/svelte.config.js> 中添加 adapter 将代码和资源 copy 到 <./malagu/.malagu/frontend>

@@ -1,10 +1,8 @@
 
 import { Component } from '@malagu/core';
 import { Context, HTTP_MIDDLEWARE_PRIORITY, Middleware } from '@malagu/web/lib/node';
-import { readFileSync } from "fs";
 // @ts-ignore
 import fetch, { Headers, Request, Response } from 'node-fetch';
-import { join } from "path";
 
 global.fetch = fetch;
 global.Response = Response;
